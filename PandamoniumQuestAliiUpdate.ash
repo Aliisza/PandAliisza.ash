@@ -15,6 +15,7 @@ boolean canBootyRun(){
    get_property("_banderRunaways").to_int() < floor(numeric_modifier("familiar weight") + familiar_weight($familiar[Pair of Stomping Boots]) / 5);
 
 }
+adv1()
 
 boolean adv(location i) {
    if(my_adventures() < 1){
@@ -130,39 +131,45 @@ void arena() {
    print("Arena done", "blue");
 }
 
-if (!contains_text(visit_url("questlog.php?which=2"),", this is Azazel in Hell.")){
+void club(){
+   if (!contains_text(visit_url("questlog.php?which=2"),", this is Azazel in Hell.")){
 
-   print("Starting the Quest", "blue");
+      print("Starting the Quest", "blue");
 
-   maximize("+combat, 0.5 familiar weight -tie", false);
-	cli_execute("condition clear");
+      maximize("+combat, 0.5 familiar weight -tie", false);
+      cli_execute("condition clear");
 
-	visit_url("pandamonium.php");
+      visit_url("pandamonium.php");
 
-	if (item_amount($item[Azazel's lollipop]) == 0){
+      if (item_amount($item[Azazel's lollipop]) == 0){
 
-      if(!have_equipped($item[Observational glasses])){
-	      print("Retrieving Observational glasses", "blue");
-	      while(item_amount($item[Observational glasses]) == 0){
-   	   adv($location[The Laugh Floor]);
-	      }
-	      print("Glasses Retrieved", "green");//everything above this should just adventure until we have observational glasses. Meaning we also have the other 2 comic items.
-         foreach it in $items[hilarious comedy prop, Victor\, the Insult Comic Hellhound Puppet, Observational Glasses]
-         visit_url(`pandamonium.php?action=mourn&whichitem={it.to_int()}&pwd`);
+         if(!have_equipped($item[Observational glasses])){
+            print("Retrieving Observational glasses", "blue");
+            while(item_amount($item[Observational glasses]) == 0){
+            adv($location[The Laugh Floor]);
+            }
+            print("Glasses Retrieved", "green");//everything above this should just adventure until we have observational glasses. Meaning we also have the other 2 comic items.
+            foreach it in $items[hilarious comedy prop, Victor\, the Insult Comic Hellhound Puppet, Observational Glasses]
+            visit_url(`pandamonium.php?action=mourn&whichitem={it.to_int()}&pwd`);
+         }
       }
+   }else{
+      print("Already have the glasses equipped", "green");
+      print("Using observational humor...What's the deal with this script?", "blue");
+      visit_url("pandamonium.php?action=mourn&preaction=observe");
    }
-}else{
-	print("Already have the glasses equipped", "green");
-   print("Using observational humor...What's the deal with this script?", "blue");
-	visit_url("pandamonium.php?action=mourn&preaction=observe");
+   print("Club done", "blue");
 }
+
+   if (item_amount($item[Azazel's lollipop]) == 0){
+      club();
+   }
 
    if (item_amount($item[Azazel's unicorn]) == 0){
 		arena();
 	}
 
 	if(item_amount($item[Azazel's tutu]) == 0){
-
 		print("Retrieving Cans Imp Air", "blue");
 
 		if(item_amount($item[imp air]) < 5){
